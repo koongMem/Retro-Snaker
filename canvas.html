@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum-scale=1.0,user-scalable=no" />
+		<title></title>
+	</head>
+	<body>
+		<canvas id="canvas" width='600' height="600" style="background:#000">
+           <p>you browser not support canvas!<p>
+       </canvas>
+       <script src='statics/js/utils.js'></script>
+       <script src='statics/js/arrow.js'></script>
+       <script src='statics/js/ball.js'></script>
+       <script>
+       		//utils.js 功能性验证
+           /*window.onload = function(){
+              var canvas = document.getElementById('canvas'),
+                  //将canvas传入，该方法会返回一个包含属性x和y的对象
+                  mouse = utils.captureMouse(canvas);
+
+              //为canvas绑定mousedown事件，当鼠标按下的时候打印出当前鼠标相对于canvas的坐标值
+              canvas.addEventListener('mousedown',function(event){
+                console.log("x:" +mouse.x +",y:" + mouse.y);
+              });
+
+                 //定义键盘事件
+	           function onKeyboard(event){
+	              switch (event.keyCode){
+	                  case 38:
+	                      console.log('up!');
+	                      break;
+	                  case 40:
+	                      console.log('down!');
+	                      break;
+	                  case 37:
+	                      console.log('left!');
+	                      break;
+	                  case 39:
+	                      console.log('right!');
+	                      break;
+	                  default:
+	                      console.log(event.keyCode);
+	           }
+	        }
+	        //为window对象绑定键盘事件
+	        window.addEventListener('keydown',onKeyboard,false);
+            }*/
+
+            //随鼠标旋转
+          /*window.onload = function(){ 
+	             var canvas = document.getElementById('canvas');
+	             var context = canvas.getContext('2d');
+	             var centerX = canvas.width/2;
+	             var centerY = canvas.height/2;
+
+	            //传入canvas,获取鼠标在canvas上移动是的坐标
+	             var mouse = utils.captureMouse(canvas);
+	             
+	            //新建一个arrow对象
+	             var arrow = new Arrow();
+	             
+	              //将arrow的坐标设置为canvas的中心
+	                 arrow.x = centerX;
+	                 arrow.y = centerY;
+	                 
+	              //动画循环函数
+	               (function drawFrame(){
+	                   window.requestAnimationFrame(drawFrame,canvas);
+	                   context.clearRect(0, 0, canvas.width, canvas.height);
+	                  
+	                  //获取dy,dx值
+	                  var dx = mouse.x - arrow.x,
+	                      dy = mouse.y - arrow.y;
+	                      dx1 = mouse.x - arrow.x1,
+	                      dy1 = mouse.y - arrow.y1;
+	                      
+	                  //设置旋转角度
+	                    arrow.rotation = Math.atan2(dy, dx);
+	                    arrow.rotation1 = Math.atan2(dy1, dx1);
+	                    
+	                  //调用draw方法画出
+	                    arrow.draw(context);
+	                    arrow.draw1(context);
+
+	               })();
+	        }*/
+
+	        //周期运动
+	       /*window.onload = function(){
+	            var canvas = document.getElementById("canvas");
+	            var context = canvas.getContext("2d");
+
+	            var ball = new Ball();
+	                ball.x = canvas.width/2;
+	                ball.y = canvas.height/2;
+
+	            var angle = 0,
+	               range = 50; //振幅
+
+	            (function drawFram(){
+					window.requestAnimationFrame(drawFram,canvas);
+					context.clearRect(0,0,canvas.width,canvas.height);
+
+					ball.x = canvas.width/2 + Math.sin(angle)*range; //核心  // Math.sin(angle)*range 打印出角度对应的sin值
+					angle += 0.1;
+
+					ball.draw(context);
+	            })();
+	        }*/
+
+	    		//直线运动
+				/*window.onload = function(){
+					var canvas = document.getElementById('canvas'),
+					    context = canvas.getContext('2d');
+					var angle = 0,
+					   range = 50,
+					   xspeed = 0,
+					   yspeed = 0.05;
+
+					var ball = new Ball();
+
+					(function drawFrame(){
+					   window.requestAnimationFrame(drawFrame,canvas);
+					   context.clearRect(0,0,canvas.width,canvas.height);
+
+					   ball.x += xspeed; //水平，沿x轴方向水平运动
+					   
+					   if(ball.x > canvas.width + ball.radius){
+					       ball.x = -ball.radius;
+					   }
+					   //垂直， 由于angle角度没发生变化，所以纵坐标保持不变
+					   ball.y = canvas.height/2+Math.sin(angle)*range;
+					   
+					  // angle += 0.05; //取消注释看看发生了什么？
+					   ball.draw(context);
+					})();
+				}*/
+
+				//scale 运动
+				/*window.onload = function(){
+		            var canvas = document.getElementById('canvas');
+		            var context  = canvas.getContext('2d');
+
+		            var angle = 0,
+		                range = 0.5,
+		                speed = 0.05,
+		                centerScale = 1;
+
+		            var ball = new Ball();
+		                ball.x = canvas.width/2;
+		                   ball.y = canvas.height/2;
+
+		            (function drawFrame(){
+		                window.requestAnimationFrame(drawFrame,canvas);
+		                context.clearRect(0,0,canvas.width,canvas.height);
+		                
+		                //sin值的变化，导致 ball.scaleX ， ball.scaleY属性变化
+		                ball.scaleX = ball.scaleY = centerScale + Math.sin(angle)*range;//打印出角度对应的sin值
+		                angle += speed;
+
+		                ball.draw(context);
+		            })();
+		        }*/
+
+		        //圆周运动
+		        /*window.onload = function(){
+	               var canvas = document.getElementById('canvas'),
+	                   context = canvas.getContext('2d');
+
+	               var ball = new Ball();
+
+	               var angle = 0, // 旋转的角度
+	                   centerX = canvas.width/2,
+	                   centerY = canvas.height/2,
+	                   radius = 100, // 定义半径
+	                   speed =0.05; // 每帧旋转角度的增加值
+
+	               (function drawFrame(){
+	                   window.requestAnimationFrame(drawFrame, canvas);
+	                   context.clearRect(0,0,canvas.width, canvas.height);
+
+	                   //centerX, centerY 的作用是让球绕画布中心旋转
+	                   ball.x = centerX + Math.sin(angle)*radius; //Math.sin(angle)  [-1,1]
+	                   ball.y = centerY + Math.cos(angle)*radius; //Math.cos(angle)  [1,-1]
+
+	                   //角度增加
+	                   angle += speed;
+	                   ball.draw(context);
+	               }());
+           		}*/
+
+           		//椭圆运动
+				/*window.onload = function(){
+		            var canvas = document.getElementById('canvas');
+		            var context = canvas.getContext('2d');
+		            var ball = new Ball();
+		            
+		            var centerX = canvas.width/2,
+		                centerY = canvas.height/2,
+		                angle = 0,
+		                radiusX = 50,
+		                radiusY = 100,
+		                speed = 0.05;
+		            
+		                ball.x = centerX;
+		                ball.y = centerY;
+		            
+		            (function drawFrame(){
+		                window.requestAnimationFrame(drawFrame,canvas);
+		                context.clearRect(0,0,canvas.width,canvas.height);
+		                
+		                //当radius的值相等时为圆周运动
+		                //当radius的值不想等是为椭圆运动
+		                ball.x = centerX + Math.sin(angle)*radiusX; //radiusX = 50
+		                ball.y = centerY + Math.cos(angle)*radiusY; //radiusY = 100
+		                angle += speed;
+		                
+		                ball.draw(context);
+		            })();
+			    }*/
+
+			    /* window.onload = function(){
+	               var canvas = document.getElementById('canvas');
+	               var mouse = utils.captureMouse(canvas);
+	               var context = canvas.getContext('2d');
+
+	               //中心位置创建一个方块
+	               var rect = {
+	                   x:canvas.width/2,
+	                   y:canvas.height/2
+	               };
+
+	               (function drawFrame(){
+	                   window.requestAnimationFrame(drawFrame,canvas);
+	                   context.clearRect(0,0,canvas.width,canvas.height);
+
+	                   var dx = mouse.x - rect.x;
+	                   var dy = mouse.y - rect.y;
+	                   var dis = Math.sqrt(dx*dx + dy*dy);
+
+	                   //画方块
+	                   context.fillStyle = '#ffffff';
+	                   context.fillRect(rect.x-2,rect.y-2,4,4);
+	                   //画线
+	                   context.save();
+	                   context.strokeStyle = '#ffffff';
+	                   context.beginPath()
+	                   context.moveTo(rect.x,rect.y);
+	                   context.lineTo(mouse.x,mouse.y);
+	                   context.closePath();
+	                   context.stroke();
+	                   context.restore();
+	                   //显示距离
+	               })();
+	           }*/
+
+	           //速度运动 + 匀速 加速运动
+	    //       	window.onload = function(){
+		   //          var canvas = document.getElementById('canvas');
+		   //          var context = canvas.getContext('2d');
+		            
+		   //          var ball = new Ball();
+		   //              ball.x = canvas.width/4;
+		   //              ball.y = canvas.height/4;
+
+		   //          var vx = .01; //定义速度
+		   //          	a = .01;
+		   //          	b = 0;
+		   //          //动画循环中
+		   //          // (function drawFrame(){
+		   //          //     window.requestAnimationFrame(drawFrame, canvas);
+		   //          //     context.clearRect(0, 0, canvas.width, canvas.height);
+		                
+		   //          //     b += vx + a;
+		   //          //     ball.x += b; // 在每一帧中都让小球的位置加上速度
+		   //          //     ball.draw(context);
+		   //          // }());
+		   //          var speed = 5;
+					// var angle = 60;
+					// (function drawFrame(){
+		   //             window.requestAnimationFrame(drawFrame, canvas);
+		   //             context.clearRect(0, 0, canvas.width, canvas.height);
+		               
+		   //             //将速度分解到X轴和Y轴，注意这里用的是弧度制，要乘上Math.PI/180
+		   //             var vx = Math.cos(angle*Math.PI/180)*speed;
+		   //             var vy = Math.sin(angle*Math.PI/180)*speed;
+		               
+		   //             //坐标位置每一帧都加上速度
+		   //             ball.x += vx;
+		   //             ball.y += vy;
+		   //             ball.draw(context);
+		   //         }())
+		   //      }
+
+
+		   //跟随鼠标运动
+		  	/*window.onload = function(){ 
+	             var canvas = document.getElementById('canvas');
+	             var context = canvas.getContext('2d');
+	             var centerX = canvas.width/2;
+	             var centerY = canvas.height/2;
+
+	            //传入canvas,获取鼠标在canvas上移动是的坐标
+	             var mouse = utils.captureMouse(canvas);
+	             
+	            //新建一个arrow对象
+	             var arrow = new Arrow();
+	             
+	              //将arrow的坐标设置为canvas的中心
+	                 // arrow.x = centerX;
+	                 // arrow.y = centerY;
+	                 
+	              //动画循环函数
+	              	var speed = 2,
+	              		speed1 = 4;
+	              	var angle = 0,
+	              		angle1 = 0;
+	              	var easing = 0.05; //缓动
+	               (function drawFrame(){
+						window.requestAnimationFrame(drawFrame,canvas);
+						context.clearRect(0, 0, canvas.width, canvas.height);
+
+						//获取dy,dx值
+						var dx = mouse.x - arrow.x,
+							dy = mouse.y - arrow.y,
+							dx1 = mouse.x - arrow.x1,
+	                      	dy1 = mouse.y - arrow.y1;
+						var dis = Math.sqrt(dx*dx + dy*dy); //两点直接的距离
+						var dis1 = Math.sqrt(dx1*dx1 + dy1*dy1); //两点直接的距离
+						//设置旋转角度
+						if(dis1 > 5 && dis > 5){
+							angle = arrow.rotation = Math.atan2(dy, dx);
+							angle1 = arrow.rotation1 = Math.atan2(dy1, dx1);
+							var vx = Math.cos(angle)*speed;
+							var vy = Math.sin(angle)*speed;
+							var vx1 = Math.cos(angle1)*speed1;
+							var vy1 = Math.sin(angle1)*speed1;
+							arrow.x += vx;
+				            arrow.y += vy;
+				            arrow.x1 += vx1;
+				            arrow.y1 += vy1;
+						}else{
+							// arrow.x = mouse.x;
+							// arrow.y = mouse.y;
+						}
+						//调用draw方法画出
+						arrow.draw(context);
+						arrow.draw1(context);
+	               })();
+	        }*/
+
+	        //重力加速度 自由落体
+	        /*window.onload = function(){
+	           var canvas = document.getElementById('canvas');
+	           var context = canvas.getContext('2d');
+	           
+	           var ball = new Ball(20, "red");
+	               ball.x = canvas.width/2
+	               ball.y = canvas.height/2 - 200;
+	               
+	           var vy = 0,  //初始速度
+	                gravity = 0.2, //定义重力加速度
+	                bounce = -0.8; //定义反弹系数
+	                
+	           //碰撞检测
+	           function checkGround(ball){
+	               if(ball.y + ball.radius > canvas.height){
+	                   ball.y = canvas.height - ball.radius;
+	                   vy *= bounce; //速度反向并且减小
+	               }
+	           }
+
+	           (function drawFramw(){
+	              window.requestAnimationFrame(drawFramw, canvas);
+	              context.clearRect(0, 0, canvas.width, canvas.height);
+	              
+	              vy += gravity;
+	              ball.y += vy;
+	              
+	              //碰撞检测
+	              checkGround(ball);
+	              ball.draw(context);
+	           }());
+		   }*/
+
+		   // 火箭  摩擦力 边缘碰撞
+		   /*window.onload = function(){
+			   	function Rocket() {
+				    this.x = 0; //初始位置
+				    this.y = 0;
+				    this.h = 20;
+				    this.w = 20;
+				    this.rotation = 0; //初始旋转角度
+				    this.lineWidth = 1;
+				    this.color = '#fff';
+				    this.fire = {
+				    	x: 0,
+				    	y: 0,
+				    	draw: true,
+				    	color: '#c7254e'
+				    };
+				}
+				Rocket.prototype.draw = function(context) {
+				    context.save();
+				    context.translate(this.x, this.y);
+				    context.rotate(this.rotation);
+				    context.lineWidth = this.lineWidth;
+
+				    if(this.fire.draw){
+				    	context.strokeStyle = this.fire.color;
+					    context.beginPath();
+					    context.moveTo(-17.5, 6);
+					    context.lineTo(-30, -this.fire.y);
+					    context.lineTo(-17.5, -6);
+					    context.stroke();
+				    }
+				    
+
+				    context.strokeStyle = this.color;
+				    context.beginPath();
+				    context.moveTo(10, -0);
+				    context.lineTo(-20, -12);
+				    context.lineTo(-15, -0);
+				    context.lineTo(-20, 12);
+				    context.lineTo(10, -0);
+				    context.closePath();
+				    context.stroke();
+				    //------------- 绘画分割线 -------------
+
+				    context.restore();
+				}
+
+	            var canvas = document.getElementById('canvas');
+	            var context = canvas.getContext('2d');
+	            
+	            var rocket = new Rocket();
+	                rocket.x = canvas.width/2;
+	                rocket.y = canvas.height/2;
+
+	            //传入canvas,获取鼠标在canvas上移动是的坐标
+	            var mouse = utils.captureMouse(canvas);
+
+	            var f = 0.97,vr = 0, vx = 0, vy = 0, ax = 0, ay = 0, speed = 0, angle = 0;
+
+	            window.addEventListener("keydown", function(event){
+	                switch (event.keyCode){
+	                    case 37:
+	                        vr = -3;
+	                        break;
+	                    case 39:
+	                        vr = 3;
+	                        break;
+	                    case 38:
+	                        speed = 0.5;
+	                        rocket.fire.draw = true;
+	                        break;
+	                }
+	            }, false);
+	            window.addEventListener("keyup", function(event){
+	                vr = 0;
+	                speed = 0;
+	                rocket.fire.draw = false;
+	            }, false);
+
+	           (function drawFramw(){
+					window.requestAnimationFrame(drawFramw, canvas);
+	                context.clearRect(0, 0, canvas.width, canvas.height);
+	                
+	                rocket.rotation += vr * Math.PI/180;
+	                angle = rocket.rotation;
+	                
+	                ax = Math.cos(angle)*speed;
+	                ay = Math.sin(angle)*speed;
+	                
+	                vx += ax;
+	                vy += ay;
+	                
+	                //摩擦力
+	                vx *= f;
+	                vy *= f;
+	                
+	                rocket.x += vx;
+	                rocket.y += vy;
+	                
+	               //边界检测
+	               if(rocket.x + rocket.w/2 > canvas.width){
+	                   rocket.x = canvas.width - rocket.w;
+	                   vx *= -1;
+	               }else if(rocket.x < rocket.w/2){
+	                   rocket.x = rocket.w/2;
+	                   vx *= -1;
+	               }
+	               if(rocket.y + rocket.h/2 > canvas.height){
+	                   rocket.y = canvas.height - rocket.h/2;
+	                   vy *= -1;
+	               }else if(rocket.y < rocket.h/2){
+	                   rocket.y = rocket.h/2;
+	                   vy *= -1;
+	               }
+	                rocket.draw(context);
+	           }());
+		   }*/
+
+			//贪吃蛇 -- 游戏 ==== 缺自杀功能
+			window.onload = function(){
+				var canvas = document.getElementById('canvas');
+			    var context = canvas.getContext('2d');
+			    var left = 0,
+			        top = 0,
+			        right = canvas.width,
+			        bottom = canvas.height;
+			    var status = 'left';
+					var snakes = [];
+					function changeArrary(_self){  
+					snakes.splice(snakes.length - 1);
+			    	snakes.unshift(_self);
+				}  
+			   	function Snake() {
+			   		this.id = 0;
+			   		this.w = 20;
+			   		this.h = 20;
+			   		this.x = canvas.width;
+			   		this.y = canvas.height/2;
+				    this.lineWidth = 1;
+				    this.color = '#fff';
+				}
+				Snake.prototype.draw = function(i, index, _arrary) {
+					var _self = i;
+
+					context.save();
+				    // context.translate(this.x, this.y);
+				    context.lineWidth = _self.lineWidth;
+				    context.strokeStyle = _self.color;
+				    context.beginPath();
+				    context.rect(_self.x, _self.y, _self.w, _self.h);
+				    context.closePath();
+				    context.stroke();
+				    //------------- 绘画分割线 -------------
+
+				    context.restore();
+				}
+				Snake.prototype.render = function(index){
+					var snake = new Snake();
+			        snake.id = index;   //给每个小球一个id
+			        if(index != 0){
+			        	if(status == 'left'){
+			        		snake.y = snakes[snakes.length - 1].y;
+			        		snake.x = snakes[snakes.length - 1].x + snake.w;
+			        	}else if(status == 'right'){
+			        		snake.y = snakes[snakes.length - 1].y;
+			        		snake.x = snakes[snakes.length - 1].x - snake.w;
+			        	}else if(status == 'up'){
+			        		snake.x = snakes[snakes.length - 1].x;
+			        		snake.y = snakes[snakes.length - 1].y + snake.h;
+			        	}else if(status == 'down'){
+			        		snake.x = snakes[snakes.length - 1].x;
+			        		snake.y = snakes[snakes.length - 1].y - snake.h;
+			        	}
+			        }
+			        snakes.push(snake); //push进数组
+				}
+
+				function Food(){
+					this.grid = right / snake.w - 2;
+					this.x = parseInt(Math.random() * this.grid) * snake.w;
+					this.y = parseInt(Math.random() * this.grid) * snake.w;
+					this.w = snake.w;
+					this.h = snake.h;
+					this.lineWidth = 1;
+					this.color = '#'+Math.floor(Math.random()*16777215).toString(16);
+					this.rx =  this.x;
+					this.ry = this.y;
+					this.rw =  this.w;
+					this.rh = this.h;
+				}
+				Food.prototype.draw = function() {
+
+					context.save();
+				    // context.translate(this.x, this.y);
+				    context.lineWidth = this.lineWidth;
+				    context.fillStyle = 'rgba(255,255,255, .05)',   //随机颜色;
+				    context.strokeStyle = this.color,   //随机颜色; 
+				    context.beginPath();
+				    context.rect(this.x, this.y, this.w, this.h);
+				    context.closePath();
+				    context.fill();
+				    context.stroke();
+				    //------------- 绘画分割线 -------------
+
+				    context.restore();
+				}
+				//通过方向键控制各变量的值
+				 window.addEventListener('keyup',function(event){
+			    	var _self = '';
+			    	if(event.keyCode == 37){//left
+			    		if(status != 'right'){
+			    			status = 'left';
+			    		}
+			    	}else if(event.keyCode == 39){//right
+			    		if(status != 'left'){
+			    			status = 'right';
+			    		}
+			    	}else if(event.keyCode == 38){//up
+			    		
+			    		//snakes[snakes.length]
+			    		if(status != 'down'){
+			        		status = 'up';
+			    		}
+			    	}else if(event.keyCode == 40){//down
+			    		if(status != 'up'){
+			    			status = 'down';
+			    		}
+			    	}
+
+			    }, false);
+
+			    //传入canvas,获取鼠标在canvas上移动是的坐标
+			    var mouse = utils.captureMouse(canvas);
+
+			    var range = 1, //振幅
+			        speed = 1; //速度
+
+				// Math.ceil(Math.random()*10)
+				snake = new Snake();
+			    for(var i=0, len = 4; i< len; i++){
+			        (function(){snake.render(i)})()
+			    }
+
+			    var interval = '';
+			    var food, angle = 0, range = .1;
+			    (function drawFood(){
+			    	window.requestAnimationFrame(drawFood);
+
+			    	if(!food){
+			    		food = new Food();
+			    	}
+			    	food.x -= Math.sin(angle) * range;
+			    	food.y -= Math.sin(angle) * range;
+			    	food.w += Math.sin(angle) * range;
+			    	food.h += Math.sin(angle) * range;
+			    	angle += .1;
+
+			    	context.clearRect(food.x - 1, food.y -1, food.w + 2, food.h + 2);
+			    	food.draw();
+			    }());
+
+			   (function drawFramw(){
+					// window.requestAnimationFrame(drawFramw, canvas);
+					if(!interval){
+						interval = setInterval(function(){
+							drawFramw();
+						}, 300);
+					}
+					
+					context.clearRect(0, 0, canvas.width, canvas.height);
+
+					if(status == 'left'){//left
+			    		var _self = snakes[snakes.length - 1],
+			    			_selfFir = snakes[0];
+			    		_self.x = _selfFir.x - _selfFir.w;
+			    		_self.y = _selfFir.y;
+			    		if(_self.x < left){
+			    			_self.x = right - _selfFir.w;
+			    		}
+			    		changeArrary(_self);
+			    		
+			    	}else if(status == 'right'){//right
+						var _self = snakes[snakes.length - 1],
+			    			_selfFir = snakes[0];
+						_self.x = _selfFir.x + _selfFir.w;
+			    		_self.y = _selfFir.y;
+			    		if(_self.x  + _selfFir.w > right){
+			    			_self.x = left;
+			    		}
+			    		changeArrary(_self);
+
+			    	}else if(status == 'up'){//up
+						var _self = snakes[snakes.length - 1],
+			    			_selfFir = snakes[0];
+			    		_self.y = _selfFir.y - _selfFir.h;
+			    		_self.x = _selfFir.x;
+			    		if(_self.y < top){
+			    			_self.y = bottom - _selfFir.h;
+			    		}
+			    		changeArrary(_self);
+			    		
+			    	}else if(status == 'down'){//down
+			    		var _self = snakes[snakes.length - 1],
+			    			_selfFir = snakes[0];
+			    		_self.y = _selfFir.h + _selfFir.y;
+			    		_self.x = _selfFir.x;
+			    		if(_self.y + _selfFir.h > bottom){
+			    			_self.y = top;
+			    		}
+			    		changeArrary(_self);
+			    	}
+
+			    	if(status == 'left' || status == 'right'){
+			    		if(_self.x == food.rx && _self.y == food.ry){
+			    			context.clearRect(food.x - 1, food.y -1, food.w + 2, food.h + 2);
+			    			food = '';
+			    			snake.render(snakes.length)
+			    		}
+			    	}else if(status == 'up' || status == 'down'){
+			    		if(_self.y == food.ry && _self.x == food.rx){
+			    			context.clearRect(food.x - 1, food.y -1, food.w + 2, food.h + 2);
+			    			food = '';
+			    			snake.render(snakes.length)
+			    		}
+			    	}
+					snakes.forEach(snake.draw);
+			   }());
+			}
+
+			//不知道什么乱起八糟的  球碰撞边界 加速度
+			/*window.onload = function(){
+				var canvas = document.getElementById('canvas');
+			    var context = canvas.getContext('2d');
+
+				var vx = Math.random() * 20;
+				var vy = Math.random() * 20;
+				var gravity = .5; //加速度
+				var bounce = -.6; //定义阻碍系数
+
+				var ball = new Ball(20, "#ff0000");
+					ball.x = canvas.width/2;
+					ball.y = canvas.height/2;
+
+				//动画循环
+				(function drawFrame(){
+					window.requestAnimationFrame(drawFrame, canvas);
+					context.clearRect(0, 0, canvas.width, canvas.height);
+
+
+					vx += gravity * Math.sin(Math.asin(vy / Math.sqrt(vx*vx + vy*vy))*Math.PI/180);
+					vy += gravity * Math.sin(Math.asin(vy / Math.sqrt(vx*vx + vy*vy))*Math.PI/180);
+
+					ball.x += vx;
+					ball.y += vy;
+
+					//核心部分
+					if(ball.x + ball.radius > canvas.width){
+						ball.x = canvas.width - ball.radius;
+						vx *= bounce;
+					}else if(ball.x - ball.radius < 0){
+						ball.x = ball.radius;
+						vx *= bounce;
+					}
+					if(ball.y + ball.radius > canvas.height){
+						ball.y = canvas.height - ball.radius;
+						vy *= bounce;
+					}else if(ball.y - ball.radius < 0){
+						ball.y = ball.radius;
+						vy *= bounce;
+					}
+
+					ball.draw(context);
+				}())
+			}*/
+
+			 /*window.onload = function(){
+		       var canvas = document.querySelector('canvas'),
+		           context = canvas.getContext('2d'),
+		           ball0 = new Ball(),
+		           ball1 = new Ball(20,"red");
+		            
+		            //球0
+		            ball0.mass = 2;                  //质量为2
+		            ball0.x = 50;
+		            ball0.y = canvas.height/2;
+		            ball0.vx = 1;
+		            
+		            //球1
+		            ball1.mass = 1;                    //质量为1
+		            ball1.x = 400;
+		            ball1.y = canvas.height/2;
+		            ball1.vx = -1;                    //速度为反向，大小为1
+		            
+		            (function drawFrame(){
+		                window.requestAnimationFrame(drawFrame, canvas);
+		                context.clearRect(0, 0, canvas.width, canvas.height);
+		                
+		                ball0.x += ball0.vx;
+		                ball1.x += ball1.vx;
+		                
+		                var dist = ball1.x - ball0.x;
+		                
+		            if(Math.abs(dist) < ball0.radius + ball1.radius){ //碰撞检测
+		                //计算碰撞后的速度
+		                var vx0Final = ((ball0.mass - ball1.mass)*ball0.vx + 2 * ball1.mass * ball1.vx)/(ball0.mass +ball1.mass);
+		                var vx1Final = ((ball1.mass - ball0.mass)*ball1.vx + 2 * ball0.mass * ball0.vx)/(ball0.mass +ball1.mass);
+		                
+		                //控制台打印
+		                console.log(vx0Final, vx1Final);
+		                
+		                //重新赋值
+		                ball0.vx = vx0Final;
+		                ball1.vx = vx1Final;
+		                
+		                // ball0.x += ball0.vx;
+		                // ball1.x += ball1.vx;
+		            }
+		                
+		                ball0.draw(context);
+		                ball1.draw(context);
+		            }())
+		        }*/
+
+		        /*window.onload = function(){
+					var canvas = document.getElementById('canvas'),
+						context = canvas.getContext('2d'),
+						mouse = utils.captureMouse(canvas),
+						ball = new Ball(20, 'red');
+					var vy, vx, easing = 0.05;
+
+					(function drawFrame(){
+						window.requestAnimationFrame(drawFrame, canvas);
+						context.clearRect(0, 0, canvas.width, canvas.height);
+
+						vx = (mouse.x - ball.x)*easing; //一样样的
+						vy = (mouse.y - ball.y)*easing; //一样样的
+						ball.x += vx;
+						ball.y += vy;
+						ball.draw(context);
+	           		}())
+	            }*/
+        </script>
+	</body>
+</html>
